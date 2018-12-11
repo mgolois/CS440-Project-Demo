@@ -7,18 +7,26 @@ $(document).ready(function(){
 
       var requestData = {'request': $('#comments').val()};
 
-      $.post(ml_prediction_url, requestData, function(data){
-        var msg = '';
-        if(data && data.department && data.probability) {
-          msg = 'After analysis, the machine learning has determine to forward your email to ' + 
-                data.department + ' because of a ' + data.probability + ' probability!';
+      $.ajax({
+        url:ml_prediction_url,
+        type:"POST",
+        data:requestData,
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(){
+            var msg = '';
+            if(data && data.department && data.probability) {
+              msg = 'After analysis, the machine learning has determine to forward your email to ' + 
+                    data.department + ' because of a ' + data.probability + ' probability!';
+            }
+            else {
+             msg =   JSON.stringify(data);
+            }
+            $(".confirmationDiv").text(msg);
+        },
+        error: function(j,t,e) {
+            console.error(e);
         }
-        else {
-         msg =   JSON.stringify(data);
-        }
-        $(".confirmationDiv").text(msg);
-      }).fail(function(data){
-
       });
 
       function clearConfirmationLabel(){
