@@ -12,8 +12,9 @@ $(document).ready(function(){
         type:"POST",
         data:requestData,
         contentType:"application/json; charset=utf-8",
-        dataType:"json",
-        success: function(){
+        dataType:"text",
+        success: function(data){
+            console.log(data);
             var msg = '';
             if(data && data.department && data.probability) {
               msg = 'After analysis, the machine learning has determine to forward your email to ' + 
